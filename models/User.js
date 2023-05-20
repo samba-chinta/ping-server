@@ -1,9 +1,11 @@
-import { DataTypes } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 
-// import sequelize postgres db
-import postgresSequelize from "./db.js";
+// import pgConnection
+import pgConnection from "./db.js";
 
-const User = postgresSequelize.define('User', {
+const pgConnect = await pgConnection("postgres", "sivaChinta@123"); 
+
+const User = pgConnect.define('User', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,6 +14,7 @@ const User = postgresSequelize.define('User', {
     userName: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     emailAddress: {
         type: DataTypes.STRING,

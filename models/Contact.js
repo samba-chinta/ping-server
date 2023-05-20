@@ -1,13 +1,15 @@
 import { DataTypes } from "sequelize";
 
-// importing connection
-import postgresSequelize from "./db.js";
+// import pgConnection
+import pgConnection from "./db.js";
 
-// importing 'User' model to define the relation 
+// importing 'User' model to define the relation
 // with 'Contact' model.
 import User from "./User.js";
 
-const Contact = postgresSequelize.define('Contact', {
+const pgConnect = await pgConnection();
+
+const Contact = pgConnect.define("Contact", {
     userId: DataTypes.INTEGER,
     contactId: {
         type: DataTypes.INTEGER,
@@ -19,7 +21,7 @@ const Contact = postgresSequelize.define('Contact', {
     },
 });
 
-User.hasMany(Contact, { foreignKey: 'userId' });
-Contact.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Contact, { foreignKey: "userId" });
+Contact.belongsTo(User, { foreignKey: "userId" });
 
 export default Contact;

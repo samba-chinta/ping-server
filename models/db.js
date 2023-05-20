@@ -1,16 +1,12 @@
 import { Sequelize } from "sequelize";
 
-const postgresSequelize = new Sequelize('ping', 'siva-chinta', 'sivaChinta@123', {
-    host: 'localhost',
-    dialect: 'postgres'
-});
+const pgConnection = async (username, password) => {
+    const postgresSequelize = new Sequelize("postgres", username, password, {
+        host: "localhost",
+        dialect: "postgres",
+    });
 
-postgresSequelize.authenticate()
-.then((res) => {
-    console.log("Connection established successfully!");
-})
-.catch((err) => {
-    console.log("Unable to connect to the database: ", err);
-})
+    return postgresSequelize;
+};
 
-export default postgresSequelize;
+export default pgConnection;

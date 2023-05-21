@@ -1,9 +1,13 @@
+import { config } from "dotenv";
 import { Sequelize, DataTypes } from "sequelize";
 
 // import pgConnection
 import pgConnection from "./db.js";
 
-const pgConnect = await pgConnection("postgres", "sivaChinta@123"); 
+// configing the env
+config();
+
+const pgConnect = await pgConnection(process.env.PG_USERNAME, process.env.PG_PASSWORD); 
 
 const User = pgConnect.define('User', {
     id: {
@@ -23,7 +27,23 @@ const User = pgConnect.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    MFAEnabled: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    MFASecret: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 });
+
+await User.sync({
+    alter: true,
+})
 
 export default User;

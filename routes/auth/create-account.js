@@ -1,8 +1,8 @@
 import exprees from "express";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 // import "User" model to create accounts
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 // creating router
 const router = exprees.Router();

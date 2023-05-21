@@ -13,9 +13,10 @@ const app = express();
 config();
 
 // routes
-import createUser from "./routes/create-account.js";
-import userLogin from "./routes/login.js";
-import getUsers from "./routes/get-user.js";
+import createUser from "./routes/auth/create-account.js";
+import userLogin from "./routes/auth/login.js";
+import generateQRCode from "./routes/auth/generate-2fa-code.js";
+import getUsers from "./routes/general/get-user.js";
 
 // configuring app to serve static files 
 const __filename = fileURLToPath(import.meta.url);
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
 // defining auth routes
 app.use('/auth/register', createUser);
 app.use('/auth/login', userLogin);
+app.use('/auth/generate-qr', generateQRCode);
 
 // verification purposes routes
 app.use('/get-users', getUsers);

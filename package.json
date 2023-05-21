@@ -19,15 +19,19 @@
   },
   "homepage": "https://github.com/samba-chinta/ping-server#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "path": "^0.12.7",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
+    "qrcode": "^1.5.3",
     "sequelize": "^6.31.1",
+    "speakeasy": "^2.0.0",
     "url": "^0.11.0"
   },
   "devDependencies": {

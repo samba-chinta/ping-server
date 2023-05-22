@@ -13,7 +13,7 @@ import authorize from "../../middleware/authorize.js";
 // creating router
 const router = express.Router();
 
-router.post("/", authorize, async (req, res) => {
+router.post("/", async (req, res) => {
     const secret = speakeasy.generateSecret();
 
     // get "username" to get user record
@@ -36,9 +36,7 @@ router.post("/", authorize, async (req, res) => {
     await user
         .save()
         .then((success) => {
-            res.statusCode(201).json({
-                image_url: qr_image_url,
-            });
+            res.render('mfa-qr', {qrURL: qr_image_url});
         })
         .catch((err) => {
             res.statusCode(301).json({

@@ -13,36 +13,36 @@ import authorize from "../../middleware/authorize.js";
 // creating router
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.get("/", authorize, async (req, res) => {
     const secret = speakeasy.generateSecret();
 
     // get "username" to get user record
-    const { username } = req.body;
+    const { username } = req.params;
 
     // get "user" details
     const user = await User.findOne({
         where: {
             userName: username,
-        },
+        }
     });
 
     // temporarily storing the secret by not modifying MFAEnabled
     // which is set to false.
     user.set("MFASecret", secret.base32);
 
-    // generating the QRCode image using secret generated earlier
-    const qr_image_url = QRCode.toDataURL(secret.otpauth_url);
+    try {
+         // generating the QRCode image using secret generated earlier
+        const qr_image_url = await QRCode.toDataURL(secret.otpauth_url);
 
-    await user
-        .save()
-        .then((success) => {
-            res.render('mfa-qr', {qrURL: qr_image_url});
+        const response = await user.save();
+
+        // send the template file
+        res.render('mfa-qr', { qrURL: qr_image_url }); 
+    } catch (err) {
+        res.json({
+            error: err,
         })
-        .catch((err) => {
-            res.statusCode(301).json({
-                message: "Secret Generation Failed",
-            });
-        });
+    }
 });
 
 export default router;

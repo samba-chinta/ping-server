@@ -45,6 +45,10 @@ router.post("/", authorize, async (req, res) => {
                     err,
                 });
             });
+    } else {
+        res.json({
+            message: "Invalid Token entered. Please recheck it",
+        })
     }
 });
 

@@ -67,6 +67,10 @@
     margin: 10px;
 }
 
+.token {
+    display: none;
+}
+
 @media screen and (min-width: 600px) and (max-width: 992px){
     .main-wrapper {
         width: 95%;

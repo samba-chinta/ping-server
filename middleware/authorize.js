@@ -5,7 +5,7 @@ config();
 
 const authorize = async (req, res, next) => {
     // search & retrieve token
-    const user_token = req.headers['x-access-token'] || req.body.token;
+    const user_token = req.headers['x-access-token'] || req.query.token || req.body.token;
 
     // if exists, verify the token
     if (user_token) {

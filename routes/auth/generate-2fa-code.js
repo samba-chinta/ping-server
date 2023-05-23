@@ -17,13 +17,13 @@ router.get("/", authorize, async (req, res) => {
     const secret = speakeasy.generateSecret();
 
     // get "username" to get user record
-    const { username } = req.params;
+    const { username } = req.query;
 
     // get "user" details
     const user = await User.findOne({
         where: {
             userName: username,
-        }
+        },
     });
 
     // temporarily storing the secret by not modifying MFAEnabled
@@ -31,17 +31,20 @@ router.get("/", authorize, async (req, res) => {
     user.set("MFASecret", secret.base32);
 
     try {
-         // generating the QRCode image using secret generated earlier
+        // generating the QRCode image using secret generated earlier
         const qr_image_url = await QRCode.toDataURL(secret.otpauth_url);
 
         const response = await user.save();
 
         // send the template file
-        res.render('mfa-qr', { qrURL: qr_image_url }); 
+        res.render("mfa-qr", {
+            qrURL: qr_image_url,
+            token: req.query.token // will removed later (for testing purpose)
+        });
     } catch (err) {
         res.json({
             error: err,
-        })
+        });
     }
 });
 

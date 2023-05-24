@@ -12,11 +12,17 @@ const app = express();
 // configure to app to use "env" variables
 config();
 
-// routes
+// auth routes
 import createUser from "./routes/auth/create-account.js";
 import userLogin from "./routes/auth/login.js";
 import generateQRCode from "./routes/auth/generate-2fa-code.js";
 import verifyMFAToken from "./routes/auth/enable-2fa.js";
+
+// app routes
+import addFriend from "./routes/app/add-friend.js";
+import getFriends from "./routes/app/get-friends.js";
+import deleteFriend from "./routes/app/remove-friend.js";
+
 import getUsers from "./routes/general/get-user.js";
 
 // configuring app to serve static files 
@@ -50,11 +56,16 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
 });
 
-// defining auth routes
+// setting up auth routes
 app.use('/auth/register', createUser);
 app.use('/auth/login', userLogin);
 app.use('/auth/generate-qr', generateQRCode);
 app.use('/auth/verify-mfa', verifyMFAToken);
+
+// setting up app routes
+app.use('/add-friend', addFriend);
+app.use('/get-friends', getFriends);
+app.use('/delete-friend', deleteFriend);
 
 // verification purposes routes
 app.use('/get-users', getUsers);

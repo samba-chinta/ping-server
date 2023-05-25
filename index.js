@@ -22,6 +22,7 @@ import verifyMFAToken from "./routes/auth/enable-2fa.js";
 import addFriend from "./routes/app/add-friend.js";
 import getFriends from "./routes/app/get-friends.js";
 import deleteFriend from "./routes/app/remove-friend.js";
+import searchFriend from "./routes/app/search-friend.js";
 
 import getUsers from "./routes/general/get-user.js";
 
@@ -66,6 +67,7 @@ app.use('/auth/verify-mfa', verifyMFAToken);
 app.use('/add-friend', addFriend);
 app.use('/get-friends', getFriends);
 app.use('/delete-friend', deleteFriend);
+app.use('/search-friend', searchFriend);
 
 // verification purposes routes
 app.use('/get-users', getUsers);

@@ -1,5 +1,6 @@
 import exprees from "express";
 import bcrypt from "bcrypt";
+import { Op } from "sequelize";
 
 // import "User" model to create accounts
 import User from "../../models/User.js";
@@ -20,27 +21,47 @@ router.post("/", async (req, res) => {
 
         // creating the user else throws error
         // if userName already exists
-        const user = await User.create({
-            userName: username,
-            emailAddress: email,
-            password: encryptPassword,
+        const isUserExists = await User.findOne({
+            where: {
+                [Op.or]: [
+                    {
+                        userName: username,
+                    },
+                    {
+                        emailAddress: email,
+                    },
+                ],
+            },
         });
 
-        // if user creation success
-        if (user) {
-            res.status(204).json({
-                message: "Successfully Account Created!",
+        if (isUserExists) {
+            res.status(409).json({
+                message: "User Already Exists",
             });
         } else {
-            // sending user's account creation failed message
-            res.status(501).json({
-                message: "Creation Failed",
+            const user = await User.create({
+                userName: username,
+                emailAddress: email,
+                password: encryptPassword
             });
+
+            // if user creation success
+            if (user) {
+                res.json({
+                    message: "Successfully Account Created!",
+                });
+            } else {
+                // sending user's account creation failed message
+                res.status(501).json({
+                    message: "Creation Failed",
+                });
+            }
         }
     } catch (err) {
         // throwing error
-        res.json({
-            error: err,
+        console.log(err);
+        res.status(500).json({
+            message: "An Error Occurred",
         });
     }
 });

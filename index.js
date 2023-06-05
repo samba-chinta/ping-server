@@ -2,6 +2,7 @@ import express from "express";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";
+import cors from 'cors';
 
 // import pgConnection() to connect to pg
 import pgConnection from "./models/db.js";
@@ -25,6 +26,7 @@ import deleteFriend from "./routes/app/remove-friend.js";
 import searchFriend from "./routes/app/search-friend.js";
 
 import getUsers from "./routes/general/get-user.js";
+import deleteAllUsers from "./routes/general/delete-all.js";
 
 // configuring app to serve static files 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public/css')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors()); // setting cors
 
 // specifying the template engine
 app.set('view engine', 'ejs');
@@ -71,6 +74,7 @@ app.use('/search-friend', searchFriend);
 
 // verification purposes routes
 app.use('/get-users', getUsers);
+app.use('/delete-users', deleteAllUsers);
 
 // Listening at port defined by "APP_PORT"
 app.listen(APP_PORT, () => {

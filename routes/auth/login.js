@@ -47,6 +47,7 @@ router.post("/", async (req, res) => {
                     res.status(201).setHeader("auth-token", token).json({
                         message: "Successfully Loggedin",
                         isMFAEnabled: user.MFAEnabled,
+                        username: username,
                         authToken: token
                     });
                 })

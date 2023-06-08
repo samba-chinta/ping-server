@@ -37,9 +37,8 @@ router.get("/", authorize, async (req, res) => {
         const response = await user.save();
 
         // send the template file
-        res.render("mfa-qr", {
+        res.json({
             qrURL: qr_image_url,
-            token: req.query.token // will removed later (for testing purpose)
         });
     } catch (err) {
         res.json({

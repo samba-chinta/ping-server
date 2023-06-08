@@ -15,7 +15,7 @@
                     for the initial validation, which is useful in
                     enabling the MFA for respective user
                 -->
-                    <form method="post" action="/auth/verify-mfa">
+                    <form method="post" action="http://localhost:5000/auth/verify-mfa">
                         <p class="important-notes">
                                 Scan the QR code using a Auth app (Example:
                                 Google Authenticator, Zoho OneAuth, Microsoft
@@ -35,7 +35,6 @@
                             name="token"
                             value="<%= token %>"
                             class="token"
-                            disabled
                         />
                         <button type="submit">Verify and Enable MFA</button>
                     </form>

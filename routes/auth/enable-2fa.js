@@ -13,12 +13,12 @@ const router = express.Router();
 // -> If it valid, set the MFAEnabled = True if it false
 // -> else through Invalid Token error
 router.post("/", authorize, async (req, res) => {
-    const { totp } = req.body;
+    const { username, totp } = req.body;
 
     // get the MFASecret stored in the Database
     const user = await User.findOne({
         where: {
-            userName: "gopichinta",
+            userName: username,
         },
     });
 

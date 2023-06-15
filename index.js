@@ -17,7 +17,8 @@ config();
 import createUser from "./routes/auth/create-account.js";
 import userLogin from "./routes/auth/login.js";
 import generateQRCode from "./routes/auth/generate-2fa-code.js";
-import verifyMFAToken from "./routes/auth/enable-2fa.js";
+import enableMFA from "./routes/auth/enable-2fa.js";
+import verifyTotp from "./routes/auth/verify-totp.js"
 
 // app routes
 import addFriend from "./routes/app/add-friend.js";
@@ -64,7 +65,8 @@ app.get('/', (req, res) => {
 app.use('/auth/register', createUser);
 app.use('/auth/login', userLogin);
 app.use('/auth/generate-qr', generateQRCode);
-app.use('/auth/verify-mfa', verifyMFAToken);
+app.use('/auth/enable-mfa', enableMFA);
+app.use('/auth/verify-totp', verifyTotp);
 
 // setting up app routes
 app.use('/add-friend', addFriend);

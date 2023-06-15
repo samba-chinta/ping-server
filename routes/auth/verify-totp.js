@@ -12,8 +12,8 @@ const router = express.Router();
 // -> verify the token entered by the user after scanning the QR
 // -> If it valid, set the MFAEnabled = True if it false
 // -> else through Invalid Token error
-router.post("/", authorize, async (req, res) => {
-    const { username, totp } = req.body;
+router.get("/", authorize, async (req, res) => {
+    const { username, totp } = req.query;
 
     // get the MFASecret stored in the Database
     const user = await User.findOne({
@@ -24,6 +24,10 @@ router.post("/", authorize, async (req, res) => {
 
     const MFASecret = user.dataValues.MFASecret;
 
+    console.log(speakeasy.totp({
+        secret: MFASecret
+    }), totp);
+
     // verify the token entered by the user
     const isValidToken = speakeasy.totp.verify({
         secret: MFASecret,
@@ -31,22 +35,10 @@ router.post("/", authorize, async (req, res) => {
         token: totp,
     });
 
-    console.log(isValidToken);
-
     if (isValidToken) {
-        user.set("MFAEnabled", true);
-        await user
-            .save()
-            .then((success) => {
-                res.json({
-                    message: "MFA Enabled Successfully",
-                });
-            })
-            .catch((err) => {
-                res.json({
-                    err,
-                });
-            });
+        res.json({
+            message: "Successfully Verified",
+        })
     } else {
         res.json({
             message: "Invalid Token entered. Please recheck it",

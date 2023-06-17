@@ -24,15 +24,12 @@ router.get("/", authorize, async (req, res) => {
 
     const MFASecret = user.dataValues.MFASecret;
 
-    console.log(speakeasy.totp({
-        secret: MFASecret
-    }), totp);
-
     // verify the token entered by the user
     const isValidToken = speakeasy.totp.verify({
         secret: MFASecret,
         encoding: "base32",
         token: totp,
+        window: 30,
     });
 
     if (isValidToken) {
